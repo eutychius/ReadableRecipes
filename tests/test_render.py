@@ -1,27 +1,40 @@
-"""Approval test for the rendered bananenschnitte poster.
+"""Unit tests for the small building blocks in render.py.
 
-The test builds the page with ``render.render_page`` for
-``recipes/bananenschnitte.json``. It then compares the page to the
-approved file that sits next to this test.
-
-If the output changes, the test fails and writes a ``.received`` file.
-Review the received file. Then rename it to the approved name to
-accept the change.
+The approval test in ``test_render.py`` checks the full page.
+These tests check one function at a time. They run fast and show
+a clear failure point when one block misbehaves.
 """
 
-from pathlib import Path
-
-from approvaltests.approvals import verify
-from approvaltests.namer.stack_frame_namer import StackFrameNamer
+import pytest
 
 import render
 
-RECIPE_PATH = (
-    Path(__file__).resolve().parents[1] / "recipes" / "bananenschnitte.json"
-)
+
+def test_item_to_parts_object():
+    """An object item gives text, bold, and uses."""
+    item = {"text": "backen", "bold": True, "uses": [1]}
+    assert render.item_to_parts(item) == ("backen", True, [1])
 
 
-def test_bananenschnitte_html():
-    """Approve the exact poster HTML for the bananenschnitte recipe."""
-    page = render.render_page(RECIPE_PATH)
-    verify(page, namer=StackFrameNamer(extension=".html"))
+def test_build_connection_map_filters_bad_entries():
+    """Bad entries drop out. Valid ones keep their order.
+
+    - out-of-range index (5) -> dropped
+    - duplicate (0) -> first occurrence wins
+    - wrong type ("x", True) -> dropped
+    - empty result (step 2) -> step is absent from the map
+    """
+    ingredients = ["a", "b", "c"]
+    steps = [
+        {"text": "s0", "uses": [2, 0, 0, 5, "x", True, 1]},
+        "plain step",
+        {"text": "s2", "uses": [9]},
+    ]
+    mapping = render.build_connection_map(ingredients, steps)
+    assert mapping == {0: [2, 0, 1]}
+
+
+def test_fill_template_raises_without_placeholders():
+    """A template without the placeholders is out of sync."""
+    with pytest.raises(render.RecipeError, match="TITLE"):
+        render.fill_template("<html></html>", "T", "", "")
