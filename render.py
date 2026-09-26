@@ -224,8 +224,30 @@ def fill_template(template: str, title: str, band: str, sections_html: str) -> s
     return result
 
 
+def render_page(recipe_path: Path) -> str:
+    """Load one recipe and build the full page HTML.
+
+    Reads the recipe and the template, renders the sections, and
+    fills the template. This function returns the exact page string
+    that `render` writes to disk.
+    """
+    recipe = load_recipe(recipe_path)
+    template_path = Path(__file__).parent / TEMPLATE_NAME
+    try:
+        template = template_path.read_text(encoding="utf-8")
+    except FileNotFoundError:
+        raise RecipeError(f"file not found: {template_path}") from None
+    sections_html = "".join(render_section(section) for section in recipe["sections"])
+    return fill_template(
+        template,
+        title=recipe["title"],
+        band=render_band(recipe.get("band", [])),
+        sections_html=sections_html,
+    )
+
+
 def render(recipe_path: Path) -> Path:
-    """End-to-end pipeline: load -> build HTML -> write output.
+    """End-to-end pipeline: build page -> write output.
 
     The template lives next to this script (Path(__file__).parent).
     The output file is named after the input file
@@ -236,19 +258,7 @@ def render(recipe_path: Path) -> Path:
     NOTE: schema validation is temporarily not enforced — the data is
     consumed as-is (see userstory.md for the expected shape).
     """
-    recipe = load_recipe(recipe_path)
-    template_path = Path(__file__).parent / TEMPLATE_NAME
-    try:
-        template = template_path.read_text(encoding="utf-8")
-    except FileNotFoundError:
-        raise RecipeError(f"file not found: {template_path}") from None
-    sections_html = "".join(render_section(section) for section in recipe["sections"])
-    page = fill_template(
-        template,
-        title=recipe["title"],
-        band=render_band(recipe.get("band", [])),
-        sections_html=sections_html,
-    )
+    page = render_page(recipe_path)
     out_path = recipe_path.parent.parent / "recipes_rendered" / f"{recipe_path.stem}.html"
     out_path.parent.mkdir(parents=True, exist_ok=True)
     out_path.write_text(page, encoding="utf-8")

@@ -3,6 +3,10 @@
         "/^python render\\.py bananenschnitte\\.json$/": {
             "approve": true,
             "matchCommandLine": true
+        },
+        "/^powershell -ExecutionPolicy Bypass -File \\.\\\\scripts\\\\run_tests\\.ps1$/": {
+            "approve": true,
+            "matchCommandLine": true
         }
     }
 }

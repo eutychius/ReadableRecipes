@@ -1,0 +1,3 @@
+# Test-only dependencies. The renderer itself uses the stdlib only.
+pytest
+approvaltests
