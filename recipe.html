@@ -25,6 +25,8 @@
     --band-bg:      #dcefd3;   /* info band fill             */
     --band-border:  #8dbd77;   /* info band border           */
     --arrow:        #2e7d32;   /* ↓ arrow color              */
+    --connector-color:  #7fa86b;  /* ingredient→step lines  */
+    --connector-width:  1.5;     /* line width, SVG units    */
   }
 
   * { box-sizing: border-box; }
@@ -96,9 +98,10 @@
     padding-bottom: 1.5mm;
   }
 
+  /* wide gutter: room for the ingredient→step connectors */
   .row {
     display: flex;
-    gap: 6mm;
+    gap: 16mm;
     align-items: flex-start;
   }
 
@@ -145,6 +148,27 @@
   .col.ingredients .box { margin-top: 2mm; }
   .col.ingredients .box:first-child { margin-top: 0; }
 
+  /* connector overlay: positioned over the row, filled by the
+     inline script with one path per (ingredient, step) pair.
+     It takes no layout space and never blocks clicks. */
+  .row { position: relative; }
+  .connectors {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    overflow: visible;
+  }
+  /* one path per (ingredient, step) pair, drawn by the inline script */
+  .connectors path {
+    fill: none;
+    stroke: var(--connector-color);
+    stroke-width: var(--connector-width);
+    stroke-linecap: round;
+    opacity: 0.85;
+  }
+
   /* ------------------------------- print ---------------------------- */
   @page {
     size: A4 portrait;
@@ -166,7 +190,68 @@
 <main class="poster">
   <h1 class="title">BANANENSCHNITTE</h1>
   <div class="band"><span class="band-line">FÜR 1 BACKBLECH</span><span class="band-line">HEISSLUFT • 200 °C • 12 MIN</span></div>
-  <section class="section"><h2>TEIG</h2><div class="row"><div class="col ingredients"><div class="box">180 g Zucker</div><div class="box">6 Eier</div><div class="box">50 g Mineralwasser</div><div class="box">180 g Weizenmehl 700</div></div><div class="col steps"><div class="box">Eier + Zucker aufschlagen</div><span class="arrow">↓</span><div class="box">Mineralwasser dazu</div><span class="arrow">↓</span><div class="box">Mehl vorsichtig unterheben</div><span class="arrow">↓</span><div class="box">auf Backblech streichen</div><span class="arrow">↓</span><div class="box bold">200 °C / 12 MIN BACKEN</div></div></div></section><section class="section"><h2>CREME</h2><div class="row"><div class="col ingredients"><div class="box">400 g Milch</div><div class="box">40 g Zucker</div><div class="box">1 Pkg. Puddingpulver</div><div class="box">300 g pürierte Bananen (ca. 3 reife Bananen)</div><div class="box">4 Blatt Gelatine</div></div><div class="col steps"><div class="box">Pudding kochen</div><span class="arrow">↓</span><div class="box">kalt stellen</div><span class="arrow">↓</span><div class="box">pürierte Bananen einrühren</div><span class="arrow">↓</span><div class="box">Gelatine einarbeiten</div></div></div></section><section class="section"><h2>BELEGEN</h2><div class="row"><div class="col ingredients"><div class="box">8 Bananen (in Scheiben)</div><div class="box bold">MARILLENMARMELADE</div></div><div class="col steps"><div class="box">Biskuit mit Marmelade bestreichen</div><span class="arrow">↓</span><div class="box">Bananenscheiben darauflegen</div><span class="arrow">↓</span><div class="box">Creme darauf verteilen</div><span class="arrow">↓</span><div class="box bold">1 STD KALT STELLEN</div></div></div></section><section class="section"><h2>GLASUR</h2><div class="row"><div class="col ingredients"><div class="box">200 g Schokolade</div><div class="box">40 g Kokosfett</div></div><div class="col steps"><div class="box">Schokolade schmelzen + Kokosfett</div><span class="arrow">↓</span><div class="box bold">GLASUR AUFTRAGEN</div></div></div></section>
+  <section class="section"><h2>TEIG</h2><div class="row"><div class="col ingredients"><div class="box" data-index="0">180 g Zucker</div><div class="box" data-index="1">6 Eier</div><div class="box" data-index="2">50 g Mineralwasser</div><div class="box" data-index="3">180 g Weizenmehl 700</div></div><div class="col steps"><div class="box" data-uses="1 0">Eier + Zucker aufschlagen</div><span class="arrow">↓</span><div class="box" data-uses="2">Mineralwasser dazu</div><span class="arrow">↓</span><div class="box" data-uses="3">Mehl vorsichtig unterheben</div><span class="arrow">↓</span><div class="box">auf Backblech streichen</div><span class="arrow">↓</span><div class="box bold">200 °C / 12 MIN BACKEN</div></div><svg class="connectors" aria-hidden="true"></svg></div></section><section class="section"><h2>CREME</h2><div class="row"><div class="col ingredients"><div class="box" data-index="0">400 g Milch</div><div class="box" data-index="1">40 g Zucker</div><div class="box" data-index="2">1 Pkg. Puddingpulver</div><div class="box" data-index="3">300 g pürierte Bananen (ca. 3 reife Bananen)</div><div class="box" data-index="4">4 Blatt Gelatine</div></div><div class="col steps"><div class="box" data-uses="0 1 2">Pudding kochen</div><span class="arrow">↓</span><div class="box">kalt stellen</div><span class="arrow">↓</span><div class="box" data-uses="3">pürierte Bananen einrühren</div><span class="arrow">↓</span><div class="box" data-uses="4">Gelatine einarbeiten</div></div><svg class="connectors" aria-hidden="true"></svg></div></section><section class="section"><h2>BELEGEN</h2><div class="row"><div class="col ingredients"><div class="box" data-index="0">8 Bananen (in Scheiben)</div><div class="box bold" data-index="1">MARILLENMARMELADE</div></div><div class="col steps"><div class="box" data-uses="1">Biskuit mit Marmelade bestreichen</div><span class="arrow">↓</span><div class="box" data-uses="0">Bananenscheiben darauflegen</div><span class="arrow">↓</span><div class="box">Creme darauf verteilen</div><span class="arrow">↓</span><div class="box bold">1 STD KALT STELLEN</div></div><svg class="connectors" aria-hidden="true"></svg></div></section><section class="section"><h2>GLASUR</h2><div class="row"><div class="col ingredients"><div class="box" data-index="0">200 g Schokolade</div><div class="box" data-index="1">40 g Kokosfett</div></div><div class="col steps"><div class="box" data-uses="0 1">Schokolade schmelzen + Kokosfett</div><span class="arrow">↓</span><div class="box bold">GLASUR AUFTRAGEN</div></div><svg class="connectors" aria-hidden="true"></svg></div></section>
 </main>
+<script>
+/* Ingredient→step connectors.
+   For each section that carries an SVG overlay (render.py only emits
+   one when the section has valid references), measure the real box
+   positions and draw one cubic curve per (ingredient, step) pair:
+   start = right border of the ingredient box (vertical center),
+   end   = left border of the step box (vertical center). All pairs
+   of one step share the same end point, so the lines merge into a
+   single connector at the step side (fan-in). Unknown indices are
+   skipped silently — no error. Re-measures on load and resize. */
+(function () {
+  "use strict";
+
+  function drawSection(section) {
+    var svg = section.querySelector(".connectors");
+    if (!svg) return;
+    var row = svg.parentElement;
+    var rowRect = row.getBoundingClientRect();
+    if (!rowRect.width || !rowRect.height) { svg.innerHTML = ""; return; }
+    svg.setAttribute("viewBox", "0 0 " + rowRect.width + " " + rowRect.height);
+    var ingBoxes = section.querySelectorAll(".col.ingredients .box");
+    var stepBoxes = section.querySelectorAll(".col.steps .box");
+    var dList = [];
+    stepBoxes.forEach(function (stepBox) {
+      var uses = stepBox.getAttribute("data-uses");
+      if (!uses) return;
+      var stepRect = stepBox.getBoundingClientRect();
+      var endX = stepRect.left - rowRect.left;
+      var endY = stepRect.top + stepRect.height / 2 - rowRect.top;
+      uses.split(" ").forEach(function (token) {
+        var ingBox = ingBoxes[Number(token)];
+        if (!ingBox) return;
+        var ingRect = ingBox.getBoundingClientRect();
+        var startX = ingRect.right - rowRect.left;
+        var startY = ingRect.top + ingRect.height / 2 - rowRect.top;
+        var midX = (startX + endX) / 2;
+        dList.push(
+          "M " + startX + " " + startY +
+          " C " + midX + " " + startY + ", " + midX + " " + endY + ", " + endX + " " + endY
+        );
+      });
+    });
+    svg.innerHTML = dList.map(function (d) { return '<path d="' + d + '"/>'; }).join("");
+  }
+
+  function drawAll() {
+    document.querySelectorAll(".section").forEach(drawSection);
+  }
+
+  var pending = false;
+  function schedule() {
+    if (pending) return;
+    pending = true;
+    requestAnimationFrame(function () { pending = false; drawAll(); });
+  }
+
+  drawAll();
+  window.addEventListener("load", drawAll);
+  window.addEventListener("resize", schedule);
+})();
+</script>
 </body>
 </html>

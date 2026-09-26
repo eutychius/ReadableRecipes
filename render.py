@@ -52,48 +52,103 @@ def load_recipe(path: Path) -> dict:
     return data
 
 
-def item_to_parts(item: object) -> tuple[str, bool]:
-    """Coerce one item to (text, bold).
+def item_to_parts(item: object) -> tuple[str, bool, object | None]:
+    """Coerce one item to (text, bold, uses).
 
-    A plain string item is (text, False). An object item is
-    (item["text"], item.get("bold", False)).
-    Pure extraction — the expected shape is the schema in userstory.md.
+    A plain string item is (text, False, None). An object item is
+    (item["text"], item.get("bold", False), item.get("uses")).
+    Pure extraction: uses is the raw value, if any. This function
+    does not check the value. The expected shape is the schema in
+    userstory.md.
     """
     if isinstance(item, str):
-        return item, False
+        return item, False, None
     assert isinstance(item, dict), "item must be a string or object"
-    return item["text"], item.get("bold", False)
+    return item["text"], item.get("bold", False), item.get("uses")
 
 
-def render_item_box(item: object) -> str:
+def build_connection_map(
+    ingredients: list[object], steps: list[object]
+) -> dict[int, list[int]]:
+    """Build the per-section connection map: step index -> ingredient indices.
+
+    The map holds one entry per step that has at least one valid
+    reference. Each value is the step's `uses` list, reduced to
+    in-range integers in their original order.
+
+    Filtering is lenient (userstory-arrows.md, decision 3): no
+    validation and no error. Per step:
+    - a missing `uses` (plain string step) or a non-list `uses`
+      -> the step is absent from the map;
+    - wrong-type entries (non-int, bool, string, null, ...)
+      -> ignored;
+    - out-of-range indices (< 0 or >= ingredient count) -> ignored;
+    - duplicates -> dropped, first occurrence wins.
+
+    A step whose `uses` list yields no valid index is absent from
+    the map, so the renderer draws no connector for it.
+    """
+    count = len(ingredients)
+    mapping: dict[int, list[int]] = {}
+    for step_index, step in enumerate(steps):
+        _text, _bold, uses = item_to_parts(step)
+        if not isinstance(uses, list):
+            continue
+        indices: list[int] = []
+        for value in uses:
+            if isinstance(value, bool) or not isinstance(value, int):
+                continue
+            if value < 0 or value >= count:
+                continue
+            if value in indices:
+                continue
+            indices.append(value)
+        if indices:
+            mapping[step_index] = indices
+    return mapping
+
+
+def render_item_box(item: object, attrs: str = "") -> str:
     """Render one item as a `<div class="box">…</div>` snippet.
 
     The text is escaped with html.escape; when bold is set the box
-    gets an extra "bold" class (styled in the template).
+    gets an extra "bold" class (styled in the template). `attrs` is
+    an optional attribute string for the box (for example a
+    data-index for the connector script); it is emitted as-is.
     """
-    text, bold = item_to_parts(item)
+    text, bold, _uses = item_to_parts(item)
     cls = "box bold" if bold else "box"
-    return f'<div class="{cls}">{html.escape(text)}</div>'
+    return f'<div class="{cls}"{attrs}>{html.escape(text)}</div>'
 
 
-def render_step_column(steps: list[object]) -> str:
+def render_step_column(steps: list[object], mapping: dict[int, list[int]]) -> str:
     """Render the right column: one box per step, arrows between boxes.
 
     Boxes are joined with <span class="arrow">↓</span> and wrapped
-    in <div class="col steps">.
+    in <div class="col steps">. A step that appears in `mapping`
+    (2c) carries its valid ingredient indices as a
+    space-separated data-uses attribute; other steps carry none.
     """
     arrow = '<span class="arrow">↓</span>'
-    boxes = arrow.join(render_item_box(step) for step in steps)
-    return f'<div class="col steps">{boxes}</div>'
+    boxes = []
+    for step_index, step in enumerate(steps):
+        indices = mapping.get(step_index)
+        attrs = f' data-uses="{" ".join(map(str, indices))}"' if indices else ""
+        boxes.append(render_item_box(step, attrs=attrs))
+    return f'<div class="col steps">{arrow.join(boxes)}</div>'
 
 
 def render_ingredient_column(ingredients: list[object]) -> str:
     """Render the left column: one box per ingredient.
 
     Boxes are stacked without connectors and wrapped in
-    <div class="col ingredients">.
+    <div class="col ingredients">. Each box carries its index
+    within the section as data-index (2c) for the connector script.
     """
-    boxes = "".join(render_item_box(ingredient) for ingredient in ingredients)
+    boxes = "".join(
+        render_item_box(ingredient, attrs=f' data-index="{index}"')
+        for index, ingredient in enumerate(ingredients)
+    )
     return f'<div class="col ingredients">{boxes}</div>'
 
 
@@ -102,18 +157,28 @@ def render_section(section: dict) -> str:
 
     Emits <section class="section"> with an <h2> header (escaped
     section name) and the two columns side by side: ingredients on
-    the left, steps on the right. No bracket connectors in v1
-    (explicitly out of scope).
+    the left, steps on the right.
+
+    A section whose connection map (2b) is non-empty also gets an
+    empty <svg class="connectors"> layer inside the row (2d). The
+    inline script in template.html measures the boxes and fills the
+    SVG with paths. A section without references renders exactly as
+    before: no overlay element at all.
     """
     name = html.escape(section["name"])
+    mapping = build_connection_map(
+        section["ingredients"], section["steps"]
+    )
     ingredients = render_ingredient_column(section["ingredients"])
-    steps = render_step_column(section["steps"])
+    steps = render_step_column(section["steps"], mapping)
+    overlay = '<svg class="connectors" aria-hidden="true"></svg>' if mapping else ""
     return (
         '<section class="section">'
         f"<h2>{name}</h2>"
         "<div class=\"row\">"
         f"{ingredients}"
         f"{steps}"
+        f"{overlay}"
         "</div>"
         "</section>"
     )

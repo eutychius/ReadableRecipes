@@ -6,9 +6,9 @@
       "name": "TEIG",
       "ingredients": ["180 g Zucker", "6 Eier", "50 g Mineralwasser", "180 g Weizenmehl 700"],
       "steps": [
-        "Eier + Zucker aufschlagen",
-        "Mineralwasser dazu",
-        "Mehl vorsichtig unterheben",
+        { "text": "Eier + Zucker aufschlagen", "uses": [1, 0] },
+        { "text": "Mineralwasser dazu", "uses": [2] },
+        { "text": "Mehl vorsichtig unterheben", "uses": [3] },
         "auf Backblech streichen",
         { "text": "200 °C / 12 MIN BACKEN", "bold": true }
       ]
@@ -16,17 +16,30 @@
     {
       "name": "CREME",
       "ingredients": ["400 g Milch", "40 g Zucker", "1 Pkg. Puddingpulver", "300 g pürierte Bananen (ca. 3 reife Bananen)", "4 Blatt Gelatine"],
-      "steps": ["Pudding kochen", "kalt stellen", "pürierte Bananen einrühren", "Gelatine einarbeiten"]
+      "steps": [
+        { "text": "Pudding kochen", "uses": [0, 1, 2] },
+        "kalt stellen",
+        { "text": "pürierte Bananen einrühren", "uses": [3] },
+        { "text": "Gelatine einarbeiten", "uses": [4] }
+      ]
     },
     {
       "name": "BELEGEN",
       "ingredients": ["8 Bananen (in Scheiben)", { "text": "MARILLENMARMELADE", "bold": true }],
-      "steps": ["Biskuit mit Marmelade bestreichen", "Bananenscheiben darauflegen", "Creme darauf verteilen", { "text": "1 STD KALT STELLEN", "bold": true }]
+      "steps": [
+        { "text": "Biskuit mit Marmelade bestreichen", "uses": [1] },
+        { "text": "Bananenscheiben darauflegen", "uses": [0] },
+        "Creme darauf verteilen",
+        { "text": "1 STD KALT STELLEN", "bold": true }
+      ]
     },
     {
       "name": "GLASUR",
       "ingredients": ["200 g Schokolade", "40 g Kokosfett"],
-      "steps": ["Schokolade schmelzen + Kokosfett", { "text": "GLASUR AUFTRAGEN", "bold": true }]
+      "steps": [
+        { "text": "Schokolade schmelzen + Kokosfett", "uses": [0, 1] },
+        { "text": "GLASUR AUFTRAGEN", "bold": true }
+      ]
     }
   ]
 }

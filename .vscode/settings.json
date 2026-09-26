@@ -1,0 +1,8 @@
+{
+    "chat.tools.terminal.autoApprove": {
+        "/^python render\\.py bananenschnitte\\.json$/": {
+            "approve": true,
+            "matchCommandLine": true
+        }
+    }
+}
