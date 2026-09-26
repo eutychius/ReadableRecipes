@@ -1,12 +1,13 @@
-"""ReadableRecipes — render a recipe JSON file to a printable poster HTML page.
+"""ReadableRecipes — render recipe JSON files to printable poster HTML pages.
 
 Usage:
-    python render.py recipe.json
+    python render.py
 
-Reads `recipe.json` (expected shape: schema in `userstory.md`),
-fills `template.html` (placeholders: <!--TITLE-->, <!--BAND-->, <!--SECTIONS-->)
-and writes `<name>.html` next to the input file
-(`<name>` is the input file name without its suffix).
+Render each `*.json` file in the `recipes` folder (expected shape:
+schema in `userstory.md`). Fill `template.html` (placeholders:
+<!--TITLE-->, <!--BAND-->, <!--SECTIONS-->) for each file and write
+`recipes_rendered/<name>.html` (`<name>` is the file name without
+its suffix).
 
 Stdlib only (Python >= 3.9): json, html, pathlib, sys.
 No third-party packages. PDF is produced via browser print (Ctrl+P).
@@ -228,7 +229,8 @@ def render(recipe_path: Path) -> Path:
 
     The template lives next to this script (Path(__file__).parent).
     The output file is named after the input file
-    (`<name>.html`) and written next to it as utf-8; its path is
+    (`<name>.html`) and written to the `recipes_rendered` folder
+    (next to the input file's folder) as utf-8; its path is
     returned.
 
     NOTE: schema validation is temporarily not enforced — the data is
@@ -248,25 +250,34 @@ def render(recipe_path: Path) -> Path:
         sections_html=sections_html,
     )
     out_path = recipe_path.parent.parent / "recipes_rendered" / f"{recipe_path.stem}.html"
+    out_path.parent.mkdir(parents=True, exist_ok=True)
     out_path.write_text(page, encoding="utf-8")
     return out_path
 
 
 def main(argv: list[str]) -> int:
-    """CLI entry point: `python render.py recipe.json`.
+    """CLI entry point: `python render.py`.
 
-    Returns 0 on success (prints the output path), 1 on RecipeError
-    (prints the message), 2 on bad usage. No traceback leaks.
+    Renders each `*.json` file in the `recipes` folder next to this
+    script. Returns 0 on success (prints one output path per file),
+    1 on RecipeError (prints the message), 2 on bad usage. No
+    traceback leaks.
     """
-    if len(argv) != 1:
-        print(f"usage: python {Path(__file__).name} <recipe.json>", file=sys.stderr)
+    if argv:
+        print(f"usage: python {Path(__file__).name}", file=sys.stderr)
         return 2
-    try:
-        out_path = render(Path(argv[0]))
-    except RecipeError as exc:
-        print(str(exc), file=sys.stderr)
-        return 1
-    print(out_path)
+    recipes_dir = Path(__file__).parent / "recipes"
+    if not recipes_dir.is_dir():
+        raise RecipeError(f"folder not found: {recipes_dir}")
+    out_paths = []
+    for recipe_path in sorted(recipes_dir.glob("*.json")):
+        try:
+            out_paths.append(render(recipe_path))
+        except RecipeError as exc:
+            print(str(exc), file=sys.stderr)
+            return 1
+    for out_path in out_paths:
+        print(out_path)
     return 0
 
 
