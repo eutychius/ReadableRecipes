@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Rezept Poster</title>
+<style>
+  /* ------------------------------------------------------------------
+     ReadableRecipes poster template.
+
+     All look & feel lives in these CSS variables — change the palette
+     here, never in render.py.
+     ------------------------------------------------------------------ */
+  :root {
+    /* palette (green) */
+    --paper:        #eef5e8;   /* page background            */
+    --poster-bg:    #ffffff;   /* poster sheet               */
+    --ink:          #1c3524;   /* main text                  */
+    --ink-soft:     #4a6a52;   /* secondary text             */
+    --accent:       #2e7d32;   /* green accent (arrows, h2)  */
+    --box-bg:       #f2f8ec;   /* ingredient / step box fill */
+    --box-border:   #a3c98f;   /* box border                 */
+    --box-bold-bg:  #2e7d32;   /* bold box fill              */
+    --box-bold-ink: #ffffff;   /* bold box text              */
+    --band-bg:      #dcefd3;   /* info band fill             */
+    --band-border:  #8dbd77;   /* info band border           */
+    --arrow:        #2e7d32;   /* ↓ arrow color              */
+  }
+
+  * { box-sizing: border-box; }
+
+  html, body {
+    margin: 0;
+    padding: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: "Segoe UI", Arial, Helvetica, sans-serif;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  /* ----------------------------- poster ---------------------------- */
+  .poster {
+    max-width: 210mm;
+    margin: 0 auto;
+    padding: 10mm 12mm;
+    background: var(--poster-bg);
+    min-height: 100vh;
+  }
+
+  /* ------------------------------ title ---------------------------- */
+  .title {
+    margin: 0 0 4mm;
+    text-align: center;
+    text-transform: uppercase;
+    font-size: 42pt;
+    font-weight: 800;
+    letter-spacing: 2pt;
+    line-height: 1.1;
+    color: var(--ink);
+  }
+
+  /* --------------------------- info band --------------------------- */
+  .band {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 3mm;
+    margin: 0 0 8mm;
+  }
+  .band-line {
+    display: inline-block;
+    padding: 1.5mm 5mm;
+    font-size: 11pt;
+    font-weight: 700;
+    letter-spacing: 1pt;
+    color: var(--ink);
+    background: var(--band-bg);
+    border: 0.4mm solid var(--band-border);
+    border-radius: 3mm;
+  }
+
+  /* ----------------------------- sections --------------------------- */
+  .section {
+    margin: 0 0 8mm;
+    break-inside: avoid-page;
+  }
+  .section h2 {
+    margin: 0 0 3mm;
+    font-size: 20pt;
+    font-weight: 800;
+    letter-spacing: 1.5pt;
+    text-transform: uppercase;
+    color: var(--accent);
+    border-bottom: 0.6mm solid var(--box-border);
+    padding-bottom: 1.5mm;
+  }
+
+  .row {
+    display: flex;
+    gap: 6mm;
+    align-items: flex-start;
+  }
+
+  /* columns: ingredients (left) + steps (right), independent flex cols */
+  .col {
+    flex: 1 1 0;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+  }
+  .col.ingredients { flex: 0 0 42%; }
+  .col.steps       { flex: 1 1 auto; }
+
+  /* ------------------------------ boxes ----------------------------- */
+  .box {
+    padding: 2mm 3.5mm;
+    margin: 0;
+    font-size: 11.5pt;
+    line-height: 1.3;
+    background: var(--box-bg);
+    border: 0.4mm solid var(--box-border);
+    border-radius: 1.5mm;
+    break-inside: avoid-page;
+  }
+  .box.bold {
+    font-weight: 800;
+    letter-spacing: 0.5pt;
+    text-align: center;
+    color: var(--box-bold-ink);
+    background: var(--box-bold-bg);
+    border-color: var(--box-bold-bg);
+  }
+
+  /* arrows between step boxes */
+  .arrow {
+    display: block;
+    text-align: center;
+    font-size: 13pt;
+    line-height: 1;
+    color: var(--arrow);
+    padding: 1mm 0;
+  }
+  /* gap between ingredient boxes (no connectors in v1) */
+  .col.ingredients .box { margin-top: 2mm; }
+  .col.ingredients .box:first-child { margin-top: 0; }
+
+  /* ------------------------------- print ---------------------------- */
+  @page {
+    size: A4 portrait;
+    margin: 10mm;
+  }
+  @media print {
+    html, body { background: var(--poster-bg); }
+    .poster {
+      max-width: none;
+      width: 100%;
+      margin: 0;
+      padding: 0;
+      min-height: 0;
+    }
+  }
+</style>
+</head>
+<body>
+<main class="poster">
+  <h1 class="title">BANANENSCHNITTE</h1>
+  <div class="band"><span class="band-line">FÜR 1 BACKBLECH</span><span class="band-line">HEISSLUFT • 200 °C • 12 MIN</span></div>
+  <section class="section"><h2>TEIG</h2><div class="row"><div class="col ingredients"><div class="box">180 g Zucker</div><div class="box">6 Eier</div><div class="box">50 g Mineralwasser</div><div class="box">180 g Weizenmehl 700</div></div><div class="col steps"><div class="box">Eier + Zucker aufschlagen</div><span class="arrow">↓</span><div class="box">Mineralwasser dazu</div><span class="arrow">↓</span><div class="box">Mehl vorsichtig unterheben</div><span class="arrow">↓</span><div class="box">auf Backblech streichen</div><span class="arrow">↓</span><div class="box bold">200 °C / 12 MIN BACKEN</div></div></div></section><section class="section"><h2>CREME</h2><div class="row"><div class="col ingredients"><div class="box">400 g Milch</div><div class="box">40 g Zucker</div><div class="box">1 Pkg. Puddingpulver</div><div class="box">300 g pürierte Bananen (ca. 3 reife Bananen)</div><div class="box">4 Blatt Gelatine</div></div><div class="col steps"><div class="box">Pudding kochen</div><span class="arrow">↓</span><div class="box">kalt stellen</div><span class="arrow">↓</span><div class="box">pürierte Bananen einrühren</div><span class="arrow">↓</span><div class="box">Gelatine einarbeiten</div></div></div></section><section class="section"><h2>BELEGEN</h2><div class="row"><div class="col ingredients"><div class="box">8 Bananen (in Scheiben)</div><div class="box bold">MARILLENMARMELADE</div></div><div class="col steps"><div class="box">Biskuit mit Marmelade bestreichen</div><span class="arrow">↓</span><div class="box">Bananenscheiben darauflegen</div><span class="arrow">↓</span><div class="box">Creme darauf verteilen</div><span class="arrow">↓</span><div class="box bold">1 STD KALT STELLEN</div></div></div></section><section class="section"><h2>GLASUR</h2><div class="row"><div class="col ingredients"><div class="box">200 g Schokolade</div><div class="box">40 g Kokosfett</div></div><div class="col steps"><div class="box">Schokolade schmelzen + Kokosfett</div><span class="arrow">↓</span><div class="box bold">GLASUR AUFTRAGEN</div></div></div></section>
+</main>
+</body>
+</html>
