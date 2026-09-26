@@ -25,7 +25,7 @@
     },
     {
       "name": "BELEGEN",
-      "ingredients": ["MARILLENMARMELADE"],
+      "ingredients": ["Marillenmarmelade"],
       "steps": [
         { "text": "Biskuit mit Marmelade bestreichen", "uses": [0] },
         "Creme darauf verteilen",
