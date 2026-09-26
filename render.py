@@ -5,7 +5,8 @@ Usage:
 
 Reads `recipe.json` (expected shape: schema in `userstory.md`),
 fills `template.html` (placeholders: <!--TITLE-->, <!--BAND-->, <!--SECTIONS-->)
-and writes `recipe.html` next to the input file.
+and writes `<name>.html` next to the input file
+(`<name>` is the input file name without its suffix).
 
 Stdlib only (Python >= 3.9): json, html, pathlib, sys.
 No third-party packages. PDF is produced via browser print (Ctrl+P).
@@ -19,8 +20,6 @@ import sys
 from pathlib import Path
 
 TEMPLATE_NAME = "template.html"   # lives next to render.py
-OUTPUT_NAME = "recipe.html"       # written next to the input file
-
 
 class RecipeError(ValueError):
     """Invalid recipe data. Message is user-facing (no traceback)."""
@@ -228,8 +227,9 @@ def render(recipe_path: Path) -> Path:
     """End-to-end pipeline: load -> build HTML -> write output.
 
     The template lives next to this script (Path(__file__).parent).
-    The output file (OUTPUT_NAME) is written next to the input file
-    as utf-8 and its path is returned.
+    The output file is named after the input file
+    (`<name>.html`) and written next to it as utf-8; its path is
+    returned.
 
     NOTE: schema validation is temporarily not enforced — the data is
     consumed as-is (see userstory.md for the expected shape).
@@ -247,7 +247,7 @@ def render(recipe_path: Path) -> Path:
         band=render_band(recipe.get("band", [])),
         sections_html=sections_html,
     )
-    out_path = recipe_path.parent / OUTPUT_NAME
+    out_path = recipe_path.parent / f"{recipe_path.stem}.html"
     out_path.write_text(page, encoding="utf-8")
     return out_path
 
