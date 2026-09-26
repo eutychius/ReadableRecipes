@@ -8,6 +8,10 @@
             "approve": true,
             "matchCommandLine": true
         },
-        ".\\scripts\\run_tests.ps1": true
+        ".\\scripts\\run_tests.ps1": true,
+        "/^py \\.\\\\render\\.py$/": {
+            "approve": true,
+            "matchCommandLine": true
+        }
     }
 }
