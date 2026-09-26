@@ -1,0 +1,49 @@
+{
+  "title": "ERDBEER-STRACCIATELLA-TORTE",
+  "band": ["FÜR 1 SPRINGFORM • Ø 26 CM", "UMLUFT • 160 °C • CA. 35 MIN"],
+  "sections": [
+    {
+      "name": "TEIG",
+      "ingredients": ["5 Eier", "180 g Zucker", "1 Prise Salz", "100 g Mehl", "2 EL Backkakao", "1 TL Backpulver"],
+      "steps": [
+        { "text": "Backofen auf 180 °C vorheizen und Springform mit Backpapier auslegen", "bold": true },
+        { "text": "Eier + Zucker + Salz 5 Min. auf höchster Stufe schaumig schlagen", "uses": ["5 Eier", "180 g Zucker", "1 Prise Salz"] },
+        { "text": "Mehl + Kakao + Backpulver mischen und unterrühren", "uses": ["100 g Mehl", "2 EL Backkakao", "1 TL Backpulver"] },
+        "Teig in die Form geben und glatt streichen",
+        { "text": "CA. 35 MIN BACKEN", "bold": true },
+        "Biskuit aus der Springform nehmen und auf Backpapier stürzen",
+        "mit dem Backpapier vollständig auskühlen lassen"
+      ]
+    },
+    {
+      "name": "ERDBEERCREME",
+      "ingredients": ["600 g Erdbeeren", "50 g Zucker", "1 Pkg. Vanillinzucker", "6 Blatt Gelatine", "500 ml Schlagobers", "100 g Zartbitter-Schokoraspel"],
+      "steps": [
+        { "text": "Erdbeeren waschen und putzen", "uses": ["600 g Erdbeeren"] },
+        "eine Handvoll Erdbeeren für die Dekoration beiseitelegen",
+        { "text": "restliche Erdbeeren + Zucker + Vanillinzucker pürieren und durch ein Sieb streichen", "uses": ["600 g Erdbeeren", "50 g Zucker", "1 Pkg. Vanillinzucker"] },
+        { "text": "Gelatine nach Packungsangabe in kaltem Wasser einweichen", "uses": ["6 Blatt Gelatine"] },
+        "Gelatine ausdrücken, mit 5–6 EL Erdbeerpüree erwärmen und auflösen",
+        "Gelatine-Erdbeermasse zum restlichen Erdbeerpüree geben und kurz verrühren",
+        { "text": "Schlagobers steif schlagen und mit Schokoraspeln unterheben", "uses": ["500 ml Schlagobers", "100 g Zartbitter-Schokoraspel"] }
+      ]
+    },
+    {
+      "name": "SCHICHTEN & DEKORATION",
+      "ingredients": ["Zebraröllchen"],
+      "steps": [
+        "Backpapier vorsichtig entfernen",
+        "Biskuitboden zweimal waagerecht durchschneiden",
+        "unteren Boden auf eine Tortenplatte legen und Tortenring darum stellen",
+        "1/3 der Creme auf dem Boden verteilen und glatt streichen",
+        "zweiten Boden auflegen und leicht andrücken",
+        "Hälfte der übrigen Creme darauf verteilen",
+        "letzten Boden auflegen und die übrige Creme daraufgeben",
+        { "text": "MIN. 2 STD. KALT STELLEN", "bold": true },
+        "Torte aus dem Ring lösen",
+        { "text": "mit Schokodekor und Erdbeeren garnieren", "uses": ["Zebraröllchen"] },
+        "bis zum Servieren kalt stellen"
+      ]
+    }
+  ]
+}

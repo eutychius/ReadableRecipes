@@ -6,23 +6,23 @@ import render
 
 def test_item_to_parts_object():
     """An object item gives text, bold, and uses."""
-    item = {"text": "backen", "bold": True, "uses": [1]}
-    assert render.item_to_parts(item) == ("backen", True, [1])
+    item = {"text": "backen", "bold": True, "uses": ["Mehl"]}
+    assert render.item_to_parts(item) == ("backen", True, ["Mehl"])
 
 
 def test_build_connection_map_filters_bad_entries():
-    """Bad entries drop out. Valid ones keep their order.
+    """Bad ingredient names drop out. Valid ones keep their order.
 
-    - out-of-range index (5) -> dropped
-    - duplicate (0) -> first occurrence wins
-    - wrong type ("x", True) -> dropped
+    - unknown ingredient ("d") -> dropped
+    - duplicate ("a") -> first occurrence wins
+    - wrong type (2, True) -> dropped
     - empty result (step 2) -> step is absent from the map
     """
-    ingredients = ["a", "b", "c"]
+    ingredients = ["a", "b", "c", "a"]
     steps = [
-        {"text": "s0", "uses": [2, 0, 0, 5, "x", True, 1]},
+        {"text": "s0", "uses": ["c", "a", "a", "d", 2, True, "b"]},
         "plain step",
-        {"text": "s2", "uses": [9]},
+        {"text": "s2", "uses": ["missing"]},
     ]
     mapping = render.build_connection_map(ingredients, steps)
     assert mapping == {0: [2, 0, 1]}
@@ -78,7 +78,7 @@ def test_render_section_overlay_only_with_valid_refs():
         {
             "name": "S1",
             "ingredients": ["a", "b"],
-            "steps": [{"text": "s", "uses": [1]}],
+            "steps": [{"text": "s", "uses": ["b"]}],
         }
     )
     assert '<svg class="connectors" aria-hidden="true"></svg>' in with_refs
@@ -91,7 +91,7 @@ def test_render_section_overlay_only_with_valid_refs():
 def test_render_step_column_arrows_and_data_uses():
     """Boxes join with arrows; only mapped steps carry data-uses."""
     steps = [
-        {"text": "s0", "uses": [1, 0]},
+        {"text": "s0", "uses": ["b", "a"]},
         "s1",
         {"text": "s2", "bold": True},
     ]

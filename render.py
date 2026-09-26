@@ -50,37 +50,40 @@ def item_to_parts(item: object) -> tuple[str, bool, object | None]:
     return item["text"], item.get("bold", False), item.get("uses")
 
 
-def valid_index(value: object, count: int) -> bool:
-    """True if value is an int within [0, count)."""
-    if isinstance(value, bool) or not isinstance(value, int):
-        return False
-    return 0 <= value < count
+def valid_uses(uses: object, ingredients: list[object]) -> list[int]:
+    """Resolve unique ingredient names in `uses` to their indices.
 
-
-def valid_uses(uses: object, count: int) -> list[int]:
-    """Filter `uses` to unique, in-range ints, keeping order."""
+    An ingredient name refers to its first matching entry. Unknown names,
+    duplicate entries, and non-string values are ignored.
+    """
     if not isinstance(uses, list):
         return []
+    ingredient_indices: dict[str, int] = {}
+    for index, ingredient in enumerate(ingredients):
+        if isinstance(ingredient, str):
+            ingredient_indices.setdefault(ingredient, index)
     indices: list[int] = []
     for value in uses:
-        if valid_index(value, count) and value not in indices:
-            indices.append(value)
+        if isinstance(value, str) and value in ingredient_indices:
+            index = ingredient_indices[value]
+            if index not in indices:
+                indices.append(index)
     return indices
 
 
 def build_connection_map(
     ingredients: list[object], steps: list[object]
 ) -> dict[int, list[int]]:
-    """Map step index -> valid ingredient indices.
+    """Map step index -> ingredient indices resolved from ingredient names.
 
-    Lenient: non-list `uses`, wrong-type, out-of-range, and
-    duplicate entries are ignored; steps with no valid index are
-    absent from the map.
+    Lenient: non-list `uses`, unknown names, wrong-type, and duplicate
+    entries are ignored. Steps with no valid ingredient are absent from
+    the map.
     """
     mapping: dict[int, list[int]] = {}
     for step_index, step in enumerate(steps):
         _, _, uses = item_to_parts(step)
-        indices = valid_uses(uses, len(ingredients))
+        indices = valid_uses(uses, ingredients)
         if indices:
             mapping[step_index] = indices
     return mapping

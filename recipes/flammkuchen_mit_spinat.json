@@ -1,0 +1,32 @@
+{
+  "title": "FLAMMKUCHEN MIT SPINAT",
+  "band": ["FÜR 1 BACKBLECH", "200 °C • CA. 20 MIN"],
+  "sections": [
+    {
+      "name": "TEIG",
+      "ingredients": ["15 g Germ", "125 ml Wasser", "200 g Mehl", "0,5 TL Salz"],
+      "steps": [
+        { "text": "Germ zerbröseln und mit der Hälfte des Wassers verrühren", "uses": ["15 g Germ", "125 ml Wasser"] },
+        "10 Min. stehen lassen",
+        { "text": "Mehl + Salz + restliches Wasser dazugeben und fest kneten", "uses": ["200 g Mehl", "125 ml Wasser", "0,5 TL Salz"] },
+        "mit einem Geschirrtuch abdecken und 1 Std. gehen lassen",
+        "ein zweites Mal kneten",
+        "abdecken und weitere 30 Min. gehen lassen"
+      ]
+    },
+    {
+      "name": "BELAG",
+      "ingredients": ["200 g Spinat", "250 g Mozzarella", "5 Tomaten", "1 Becher Crème fraîche", "etwas Olivenöl", "1 Prise Pfeffer", "1 Prise Salz"],
+      "steps": [
+        { "text": "Spinat auftauen, in einem Sieb abtropfen lassen und gut ausdrücken", "uses": ["200 g Spinat"] },
+        { "text": "Mozzarella würfeln und Tomaten in Streifen schneiden", "uses": ["250 g Mozzarella"] },
+        { "text": "Backrohr auf 200 °C vorheizen", "bold": true },
+        "Teig auf einem mit Backpapier ausgelegten Blech dünn ausrollen",
+        { "text": "Crème fraîche gleichmäßig auf dem Teig verteilen", "uses": ["1 Becher Crème fraîche"] },
+        { "text": "mit Mozzarella, Spinat und Tomaten belegen"},
+        { "text": "mit Olivenöl beträufeln und mit Pfeffer + Salz würzen", "uses": ["etwas Olivenöl", "1 Prise Pfeffer", "1 Prise Salz"] },
+        { "text": "CA. 20 MIN. GOLDBRAUN BACKEN", "bold": true }
+      ]
+    }
+  ]
+}

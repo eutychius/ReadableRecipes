@@ -6,9 +6,9 @@
       "name": "TEIG",
       "ingredients": ["180 g Zucker", "6 Eier", "50 g Mineralwasser", "180 g Weizenmehl 700"],
       "steps": [
-        { "text": "Eier + Zucker aufschlagen", "uses": [1, 0] },
-        { "text": "Mineralwasser dazu", "uses": [2] },
-        { "text": "Mehl vorsichtig unterheben", "uses": [3] },
+        { "text": "Eier + Zucker aufschlagen", "uses": ["6 Eier", "180 g Zucker"] },
+        { "text": "Mineralwasser dazu", "uses": ["50 g Mineralwasser"] },
+        { "text": "Mehl vorsichtig unterheben", "uses": ["180 g Weizenmehl 700"] },
         "auf Backblech streichen",
         { "text": "200 °C / 12 MIN BACKEN", "bold": true }
       ]
@@ -17,17 +17,17 @@
       "name": "CREME",
       "ingredients": ["400 g Milch", "40 g Zucker", "1 Pkg. Puddingpulver", "8 pürierte Bananen", "4 Blatt Gelatine"],
       "steps": [
-        { "text": "Pudding kochen", "uses": [0, 1, 2] },
+        { "text": "Pudding kochen", "uses": ["400 g Milch", "40 g Zucker", "1 Pkg. Puddingpulver"] },
         "kalt stellen",
-        { "text": "pürierte Bananen einrühren", "uses": [3] },
-        { "text": "Gelatine einarbeiten", "uses": [4] }
+        { "text": "pürierte Bananen einrühren", "uses": ["8 pürierte Bananen"] },
+        { "text": "Gelatine einarbeiten", "uses": ["4 Blatt Gelatine"] }
       ]
     },
     {
       "name": "BELEGEN",
       "ingredients": ["Marillenmarmelade"],
       "steps": [
-        { "text": "Biskuit mit Marmelade bestreichen", "uses": [0] },
+        { "text": "Biskuit mit Marmelade bestreichen", "uses": ["Marillenmarmelade"] },
         "Creme darauf verteilen",
         { "text": "1 STD KALT STELLEN", "bold": true }
       ]
@@ -36,7 +36,7 @@
       "name": "GLASUR",
       "ingredients": ["200 g Schokolade", "40 g Kokosfett"],
       "steps": [
-        { "text": "Schokolade schmelzen + Kokosfett", "uses": [0, 1] },
+        { "text": "Schokolade schmelzen + Kokosfett", "uses": ["200 g Schokolade", "40 g Kokosfett"] },
         { "text": "GLASUR AUFTRAGEN", "bold": true }
       ]
     }

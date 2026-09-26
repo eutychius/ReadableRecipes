@@ -1,0 +1,44 @@
+{
+  "title": "PFIRSICH-TORTE",
+  "band": ["FÜR 1 SPRINGFORM • Ø 26 CM", "OBER-/UNTERHITZE • 180 °C • CA. 15 MIN"],
+  "sections": [
+    {
+      "name": "BISKUITBODEN",
+      "ingredients": ["3 Eier", "2 EL Wasser", "100 g Zucker", "100 g Mehl", "1 Prise Salz", "2 TL Backpulver"],
+      "steps": [
+        { "text": "Ofen auf 180 °C vorheizen", "bold": true },
+        { "text": "Eier + Wasser + Zucker ca. 5 Min. cremig schlagen", "uses": ["3 Eier", "2 EL Wasser", "100 g Zucker"] },
+        { "text": "Mehl + Salz + Backpulver mischen", "uses": ["100 g Mehl", "1 Prise Salz", "2 TL Backpulver"] },
+        "Mehlmischung nach und nach sieben und vorsichtig unterheben",
+        "Springform einfetten",
+        "Teig hineingeben und glatt streichen",
+        { "text": "CA. 15 MIN BACKEN", "bold": true },
+        "vollständig abkühlen lassen und aus der Form nehmen"
+      ]
+    },
+    {
+      "name": "CREME",
+      "ingredients": ["4 Blatt Gelatine", "250 g Schlagobers", "250 g Mascarpone", "250 g Magertopfen", "80 g Staubzucker"],
+      "steps": [
+        { "text": "2 Blatt Gelatine in Wasser einweichen", "uses": ["4 Blatt Gelatine"] },
+        { "text": "Schlagobers steif schlagen", "uses": ["250 g Schlagobers"] },
+        { "text": "Mascarpone + Magertopfen + Staubzucker verrühren", "uses": ["250 g Mascarpone", "250 g Magertopfen", "80 g Staubzucker"] },
+        "2 EL Creme mit der ausgedrückten Gelatine bei geringer bis mittlerer Hitze erwärmen",
+        "bis sich die Gelatine aufgelöst hat",
+        "1 EL Creme mit dem Gelatine-Gemisch verrühren",
+        "Gelatine-Gemisch zur Creme geben und unterrühren",
+        "Schlagobers unterheben"
+      ]
+    },
+    {
+      "name": "PFIRSICHE",
+      "ingredients": ["1 Dose Pfirsiche"],
+      "steps": [
+        { "text": "Pfirsiche in einem Sieb abtropfen lassen", "uses": ["1 Dose Pfirsiche"] },
+        "3 Pfirsiche in dünne Scheiben schneiden",
+        "übrige Pfirsichhälften klein hacken",
+        "gehackte Pfirsiche unter die Hälfte der Creme heben"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,32 @@
+{
+  "title": "MOKKA-TORTE",
+  "band": ["FÜR 1 SPRINGFORM • Ø 26 CM", "UMLUFT • 160 °C • CA. 25 MIN"],
+  "sections": [
+    {
+      "name": "TEIG",
+      "ingredients": ["6 Eier", "150 g Zucker", "1 Pkg. Vanillezucker", "4 EL Wasser", "110 g Mehl", "4 EL Kakao", "1 Pkg. Backpulver"],
+      "steps": [
+        { "text": "Ofen auf 180 °C vorheizen", "bold": true },
+        { "text": "Eier + Zucker + Vanillezucker + Wasser ca. 5 Min. sehr cremig schlagen", "uses": ["6 Eier", "150 g Zucker", "1 Pkg. Vanillezucker", "4 EL Wasser"] },
+        { "text": "Mehl + Backpulver + Kakao vermischen", "uses": ["110 g Mehl", "4 EL Kakao", "1 Pkg. Backpulver"] },
+        "Mehlmischung nach und nach zur Eiermasse sieben und sehr vorsichtig unterheben",
+        "Boden der Springform einfetten, Ränder nicht einfetten",
+        "Teig in die Form geben",
+        { "text": "CA. 25 MIN BACKEN", "bold": true },
+        "vollständig abkühlen lassen"
+      ]
+    },
+    {
+      "name": "CREME",
+      "ingredients": ["6 Blatt Gelatine", "1 EL Zucker", "500 ml Schlagobers", "250 g Magertopfen", "200 ml Espresso", "Zebraröllchen"],
+      "steps": [
+        { "text": "Espresso + Gelatine + Zucker unter Rühren erhitzen, bis sich alles aufgelöst hat", "uses": ["200 ml Espresso", "6 Blatt Gelatine", "1 EL Zucker"] },
+        "vollständig abkühlen lassen",
+        { "text": "Schlagobers schlagen", "uses": ["500 ml Schlagobers"] },
+        { "text": "Kaffee und Magertopfen zum steifen Schlagobers geben und mixen", "uses": ["250 g Magertopfen", "200 ml Espresso"] },
+        "Tipp: Bei zu heller Creme mit Kakaopulver nachfärben",
+        { "text": "mit Zebraröllchen dekorieren", "uses": ["Zebraröllchen"] }
+      ]
+    }
+  ]
+}

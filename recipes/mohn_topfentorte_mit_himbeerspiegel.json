@@ -1,0 +1,40 @@
+{
+  "title": "MOHN-TOPFENTORTE MIT HIMBEERSPIEGEL",
+  "band": ["FÜR 1 TORTENFORM • Ø 26 CM", "OBER-/UNTERHITZE • 180 °C • CA. 30 MIN"],
+  "sections": [
+    {
+      "name": "TEIG",
+      "ingredients": ["150 g Margarine", "150 g Staubzucker", "6 Eier (getrennt)", "14 g Kristallzucker", "210 g Mohn (gemahlen)",  "110 g Haselnüsse", "1 TL Backpulver"],
+      "steps": [
+        { "text": "Margarine + 150 g Staubzucker schlagen", "uses": ["150 g Margarine", "150 g Staubzucker"] },
+        { "text": "Dotter einzeln hinzufügen", "uses": ["6 Eier (getrennt)"] },
+        { "text": "Eiklar mit Kristallzucker steif schlagen", "uses": ["6 Eier (getrennt)", "14 g Kristallzucker"] },
+        { "text": "Mohn, Backpulver und Haselnüsse abwechselnd zur Dottermasse geben", "uses": ["210 g Mohn (gemahlen)", "110 g Haselnüsse", "1 TL Backpulver"] },
+        "Masse in eine mit Butter eingefettete Tortenform geben",
+        { "text": "BEI 180 °C CA. 30 MIN BACKEN", "bold": true },
+        "auskühlen lassen"
+      ]
+    },
+    {
+      "name": "CREME",
+      "ingredients": ["50 g Staubzucker", "500 g Topfen", "1 Zitrone", "1 Pkg. Vanillezucker", "500 ml Schlagobers (geschlagen)", "7 Blatt Gelatine"],
+      "steps": [
+        { "text": "Topfen + Staubzucker + Zitronensaft + etwas Zitronenschale + Vanillezucker verrühren", "uses": ["50 g Staubzucker", "500 g Topfen", "1 Zitrone", "1 Pkg. Vanillezucker"] },
+        { "text": "Gelatine in das geschlagene Obers einrühren", "uses": ["500 ml Schlagobers (geschlagen)", "7 Blatt Gelatine"] },
+        "Gelatine-Obers-Masse unter die Topfenmasse heben",
+        "Masse auf dem ausgekühlten Mohnboden verteilen",
+        { "text": "STOCKEN LASSEN", "bold": true }
+      ]
+    },
+    {
+      "name": "HIMBEERSPIEGEL",
+      "ingredients": ["200 g Himbeeren", "1 EL Staubzucker", "1 Blatt Gelatine"],
+      "steps": [
+        { "text": "Himbeeren passieren und mit Staubzucker verrühren", "uses": ["200 g Himbeeren", "1 EL Staubzucker"] },
+        { "text": "Gelatine einrühren", "uses": ["1 Blatt Gelatine"] },
+        "auf die Topfenmasse gießen",
+        { "text": "KÜHL STELLEN", "bold": true }
+      ]
+    }
+  ]
+}
