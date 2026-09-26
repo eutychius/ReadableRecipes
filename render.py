@@ -247,7 +247,7 @@ def render(recipe_path: Path) -> Path:
         band=render_band(recipe.get("band", [])),
         sections_html=sections_html,
     )
-    out_path = recipe_path.parent / f"{recipe_path.stem}.html"
+    out_path = recipe_path.parent.parent / "recipes_rendered" / f"{recipe_path.stem}.html"
     out_path.write_text(page, encoding="utf-8")
     return out_path
 

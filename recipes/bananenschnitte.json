@@ -15,7 +15,7 @@
     },
     {
       "name": "CREME",
-      "ingredients": ["400 g Milch", "40 g Zucker", "1 Pkg. Puddingpulver", "300 g pürierte Bananen (ca. 3 reife Bananen)", "4 Blatt Gelatine"],
+      "ingredients": ["400 g Milch", "40 g Zucker", "1 Pkg. Puddingpulver", "8 pürierte Bananen", "4 Blatt Gelatine"],
       "steps": [
         { "text": "Pudding kochen", "uses": [0, 1, 2] },
         "kalt stellen",
@@ -25,10 +25,9 @@
     },
     {
       "name": "BELEGEN",
-      "ingredients": ["8 Bananen (in Scheiben)", { "text": "MARILLENMARMELADE", "bold": true }],
+      "ingredients": ["MARILLENMARMELADE"],
       "steps": [
-        { "text": "Biskuit mit Marmelade bestreichen", "uses": [1] },
-        { "text": "Bananenscheiben darauflegen", "uses": [0] },
+        { "text": "Biskuit mit Marmelade bestreichen", "uses": [0] },
         "Creme darauf verteilen",
         { "text": "1 STD KALT STELLEN", "bold": true }
       ]
