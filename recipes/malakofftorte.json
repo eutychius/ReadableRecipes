@@ -1,0 +1,40 @@
+{
+  "title": "MALAKOFFTORTE",
+  "band": ["FÜR 1 SPRINGFORM • Ø 22 CM", "OHNE BACKEN • CA. 1 STD. 30 MIN"],
+  "sections": [
+    {
+      "name": "CREME",
+      "ingredients": ["1 Pkg. Vanillepuddingpulver", "500 ml Milch", "Zucker nach Packungsangabe", "250 g weiche Butter", "100 g Staubzucker"],
+      "steps": [
+        { "text": "Pudding mit Milch + Zucker nach Packungsangabe kochen", "uses": ["1 Pkg. Vanillepuddingpulver", "500 ml Milch", "Zucker nach Packungsangabe"] },
+        "Frischhaltefolie direkt auf die Oberfläche legen und Pudding abkühlen lassen",
+        { "text": "Butter + Staubzucker mit dem kalten Pudding verrühren", "uses": ["250 g weiche Butter", "100 g Staubzucker"] }
+      ]
+    },
+    {
+      "name": "SCHICHTEN",
+      "ingredients": ["300 g Löffelbiskuits", "10–15 EL Rum"],
+      "steps": [
+        "Löffelbiskuits in eine Springform (Ø 22 cm) legen",
+        { "text": "Mit 5–7 EL Rum tränken", "uses": ["10–15 EL Rum"] },
+        "Etwas weniger als die Hälfte der Creme darauf verstreichen",
+        "Löffelbiskuits + Rum + Creme nochmals schichten; mit Creme abschließen",
+        "Etwas Creme für den Rand zurückbehalten",
+        { "text": "CA. 30 MIN KÜHLEN", "bold": true }
+      ]
+    },
+    {
+      "name": "DEKO",
+      "ingredients": ["50 g Mandelblättchen", "200 g Schlagobers", "12 Schokoblättchen"],
+      "steps": [
+        { "text": "Mandelblättchen ohne Fett rösten und abkühlen lassen", "uses": ["50 g Mandelblättchen"] },
+        "Springformrand lösen und Tortenrand mit der restlichen Creme bestreichen",
+        "Mandelblättchen an den Rand drücken",
+        { "text": "Schlagobers steif schlagen", "uses": ["200 g Schlagobers"] },
+        "12 kleine Schlagobers-Häubchen auf die Torte spritzen",
+        { "text": "Mit Schokoblättchen verzieren", "uses": ["12 Schokoblättchen"] },
+        "Gekühlt servieren"
+      ]
+    }
+  ]
+}

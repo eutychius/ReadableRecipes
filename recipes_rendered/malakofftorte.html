@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MALAKOFFTORTE</title>
+<style>
+  /* ------------------------------------------------------------------
+     ReadableRecipes poster template.
+
+     All look & feel lives in these CSS variables — change the palette
+     here, never in render.py.
+     ------------------------------------------------------------------ */
+  :root {
+    /* palette (green) */
+    --paper:        #eef5e8;   /* page background            */
+    --poster-bg:    #ffffff;   /* poster sheet               */
+    --ink:          #1c3524;   /* main text                  */
+    --ink-soft:     #4a6a52;   /* secondary text             */
+    --accent:       #2e7d32;   /* green accent (arrows, h2)  */
+    --box-bg:       #f2f8ec;   /* ingredient / step box fill */
+    --box-border:   #a3c98f;   /* box border                 */
+    --box-bold-bg:  #2e7d32;   /* bold box fill              */
+    --box-bold-ink: #ffffff;   /* bold box text              */
+    --band-bg:      #dcefd3;   /* info band fill             */
+    --band-border:  #8dbd77;   /* info band border           */
+    --arrow:        #2e7d32;   /* ↓ arrow color              */
+    --connector-color:  #7fa86b;  /* ingredient→step lines  */
+    --connector-width:  1.5;     /* line width, SVG units    */
+  }
+
+  * { box-sizing: border-box; }
+
+  html, body {
+    margin: 0;
+    padding: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: "Segoe UI", Arial, Helvetica, sans-serif;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  /* ----------------------------- poster ---------------------------- */
+  .poster {
+    max-width: 210mm;
+    margin: 0 auto;
+    padding: 10mm 12mm;
+    background: var(--poster-bg);
+    min-height: 100vh;
+  }
+
+  /* ------------------------------ title ---------------------------- */
+  .title {
+    margin: 0 0 4mm;
+    text-align: center;
+    text-transform: uppercase;
+    font-size: 42pt;
+    font-weight: 800;
+    letter-spacing: 2pt;
+    line-height: 1.1;
+    color: var(--ink);
+  }
+
+  /* --------------------------- info band --------------------------- */
+  .band {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 3mm;
+    margin: 0 0 8mm;
+  }
+  .band-line {
+    display: inline-block;
+    padding: 1.5mm 5mm;
+    font-size: 11pt;
+    font-weight: 700;
+    letter-spacing: 1pt;
+    color: var(--ink);
+    background: var(--band-bg);
+    border: 0.4mm solid var(--band-border);
+    border-radius: 3mm;
+  }
+
+  /* ----------------------------- sections --------------------------- */
+  .section {
+    margin: 0 0 8mm;
+    break-inside: avoid-page;
+  }
+  .section h2 {
+    margin: 0 0 3mm;
+    font-size: 20pt;
+    font-weight: 800;
+    letter-spacing: 1.5pt;
+    text-transform: uppercase;
+    color: var(--accent);
+    border-bottom: 0.6mm solid var(--box-border);
+    padding-bottom: 1.5mm;
+  }
+
+  /* wide gutter: room for the ingredient→step connectors */
+  .row {
+    display: flex;
+    gap: 16mm;
+    align-items: flex-start;
+  }
+
+  /* columns: ingredients (left) + steps (right), independent flex cols */
+  .col {
+    flex: 1 1 0;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+  }
+  .col.ingredients { flex: 0 0 42%; }
+  .col.steps       { flex: 1 1 auto; }
+
+  /* ------------------------------ boxes ----------------------------- */
+  .box {
+    padding: 2mm 3.5mm;
+    margin: 0;
+    font-size: 11.5pt;
+    line-height: 1.3;
+    background: var(--box-bg);
+    border: 0.4mm solid var(--box-border);
+    border-radius: 1.5mm;
+    break-inside: avoid-page;
+  }
+  .box.bold {
+    font-weight: 800;
+    letter-spacing: 0.5pt;
+    text-align: center;
+    color: var(--box-bold-ink);
+    background: var(--box-bold-bg);
+    border-color: var(--box-bold-bg);
+  }
+
+  /* arrows between step boxes */
+  .arrow {
+    display: block;
+    text-align: center;
+    font-size: 13pt;
+    line-height: 1;
+    color: var(--arrow);
+    padding: 1mm 0;
+  }
+  /* gap between ingredient boxes (no connectors in v1) */
+  .col.ingredients .box { margin-top: 2mm; }
+  .col.ingredients .box:first-child { margin-top: 0; }
+
+  /* connector overlay: positioned over the row, filled by the
+     inline script with one path per (ingredient, step) pair.
+     It takes no layout space and never blocks clicks. */
+  .row { position: relative; }
+  .connectors {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    overflow: visible;
+  }
+  /* one path per (ingredient, step) pair, drawn by the inline script */
+  .connectors path {
+    fill: none;
+    stroke: var(--connector-color);
+    stroke-width: var(--connector-width);
+    stroke-linecap: round;
+    opacity: 0.85;
+  }
+
+  /* ------------------------------- print ---------------------------- */
+  @page {
+    size: A4 portrait;
+    margin: 10mm;
+  }
+  @media print {
+    html, body { background: var(--poster-bg); }
+    .poster {
+      max-width: none;
+      width: 100%;
+      margin: 0;
+      padding: 0;
+      min-height: 0;
+    }
+  }
+</style>
+</head>
+<body>
+<main class="poster">
+  <h1 class="title">MALAKOFFTORTE</h1>
+  <div class="band"><span class="band-line">FÜR 1 SPRINGFORM • Ø 22 CM</span><span class="band-line">OHNE BACKEN • CA. 1 STD. 30 MIN</span></div>
+  <section class="section"><h2>CREME</h2><div class="row"><div class="col ingredients"><div class="box" data-index="0">1 Pkg. Vanillepuddingpulver</div><div class="box" data-index="1">500 ml Milch</div><div class="box" data-index="2">Zucker nach Packungsangabe</div><div class="box" data-index="3">250 g weiche Butter</div><div class="box" data-index="4">100 g Staubzucker</div></div><div class="col steps"><div class="box" data-uses="0 1 2">Pudding mit Milch + Zucker nach Packungsangabe kochen</div><span class="arrow">↓</span><div class="box">Frischhaltefolie direkt auf die Oberfläche legen und Pudding abkühlen lassen</div><span class="arrow">↓</span><div class="box" data-uses="3 4">Butter + Staubzucker mit dem kalten Pudding verrühren</div></div><svg class="connectors" aria-hidden="true"></svg></div></section><section class="section"><h2>SCHICHTEN</h2><div class="row"><div class="col ingredients"><div class="box" data-index="0">300 g Löffelbiskuits</div><div class="box" data-index="1">10–15 EL Rum</div></div><div class="col steps"><div class="box">Löffelbiskuits in eine Springform (Ø 22 cm) legen</div><span class="arrow">↓</span><div class="box" data-uses="1">Mit 5–7 EL Rum tränken</div><span class="arrow">↓</span><div class="box">Etwas weniger als die Hälfte der Creme darauf verstreichen</div><span class="arrow">↓</span><div class="box">Löffelbiskuits + Rum + Creme nochmals schichten; mit Creme abschließen</div><span class="arrow">↓</span><div class="box">Etwas Creme für den Rand zurückbehalten</div><span class="arrow">↓</span><div class="box bold">CA. 30 MIN KÜHLEN</div></div><svg class="connectors" aria-hidden="true"></svg></div></section><section class="section"><h2>DEKO</h2><div class="row"><div class="col ingredients"><div class="box" data-index="0">50 g Mandelblättchen</div><div class="box" data-index="1">200 g Schlagobers</div><div class="box" data-index="2">12 Schokoblättchen</div></div><div class="col steps"><div class="box" data-uses="0">Mandelblättchen ohne Fett rösten und abkühlen lassen</div><span class="arrow">↓</span><div class="box">Springformrand lösen und Tortenrand mit der restlichen Creme bestreichen</div><span class="arrow">↓</span><div class="box">Mandelblättchen an den Rand drücken</div><span class="arrow">↓</span><div class="box" data-uses="1">Schlagobers steif schlagen</div><span class="arrow">↓</span><div class="box">12 kleine Schlagobers-Häubchen auf die Torte spritzen</div><span class="arrow">↓</span><div class="box" data-uses="2">Mit Schokoblättchen verzieren</div><span class="arrow">↓</span><div class="box">Gekühlt servieren</div></div><svg class="connectors" aria-hidden="true"></svg></div></section>
+</main>
+<script>
+/* Ingredient→step connectors.
+   For each section that carries an SVG overlay (render.py only emits
+   one when the section has valid references), measure the real box
+   positions and draw one cubic curve per (ingredient, step) pair:
+   start = right border of the ingredient box (vertical center),
+   end   = left border of the step box (vertical center). All pairs
+   of one step share the same end point, so the lines merge into a
+   single connector at the step side (fan-in). Unknown indices are
+   skipped silently — no error. Re-measures on load and resize. */
+(function () {
+  "use strict";
+
+  function drawSection(section) {
+    var svg = section.querySelector(".connectors");
+    if (!svg) return;
+    var row = svg.parentElement;
+    var rowRect = row.getBoundingClientRect();
+    if (!rowRect.width || !rowRect.height) { svg.innerHTML = ""; return; }
+    svg.setAttribute("viewBox", "0 0 " + rowRect.width + " " + rowRect.height);
+    var ingBoxes = section.querySelectorAll(".col.ingredients .box");
+    var stepBoxes = section.querySelectorAll(".col.steps .box");
+    var dList = [];
+    stepBoxes.forEach(function (stepBox) {
+      var uses = stepBox.getAttribute("data-uses");
+      if (!uses) return;
+      var stepRect = stepBox.getBoundingClientRect();
+      var endX = stepRect.left - rowRect.left;
+      var endY = stepRect.top + stepRect.height / 2 - rowRect.top;
+      uses.split(" ").forEach(function (token) {
+        var ingBox = ingBoxes[Number(token)];
+        if (!ingBox) return;
+        var ingRect = ingBox.getBoundingClientRect();
+        var startX = ingRect.right - rowRect.left;
+        var startY = ingRect.top + ingRect.height / 2 - rowRect.top;
+        var midX = (startX + endX) / 2;
+        dList.push(
+          "M " + startX + " " + startY +
+          " C " + midX + " " + startY + ", " + midX + " " + endY + ", " + endX + " " + endY
+        );
+      });
+    });
+    svg.innerHTML = dList.map(function (d) { return '<path d="' + d + '"/>'; }).join("");
+  }
+
+  function drawAll() {
+    document.querySelectorAll(".section").forEach(drawSection);
+  }
+
+  var pending = false;
+  function schedule() {
+    if (pending) return;
+    pending = true;
+    requestAnimationFrame(function () { pending = false; drawAll(); });
+  }
+
+  drawAll();
+  window.addEventListener("load", drawAll);
+  window.addEventListener("resize", schedule);
+})();
+</script>
+</body>
+</html>

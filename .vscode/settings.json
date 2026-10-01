@@ -16,6 +16,10 @@
         "/^py \\.\\\\render\\.py; \\.\\\\scripts\\\\run_tests\\.ps1$/": {
             "approve": true,
             "matchCommandLine": true
+        },
+        "/^python render\\.py$/": {
+            "approve": true,
+            "matchCommandLine": true
         }
     }
 }
